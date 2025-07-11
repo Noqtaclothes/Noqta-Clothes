@@ -1,0 +1,70 @@
+<!-- categories.html -->
+<!-- Choose between T-Shirts, Pants, Shorts, Hoodies -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categories - NOQTA</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: white;
+      color: black;
+      text-align: center;
+      padding: 20px;
+    }
+    .category {
+      display: inline-block;
+      margin: 30px;
+      cursor: pointer;
+    }
+    .category img {
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+      border: 1px solid #ddd;
+      padding: 10px;
+    }
+    .footer {
+      text-align: center;
+      font-size: 14px;
+      margin-top: 40px;
+    }
+    .footer a {
+      color: black;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Choose a Category</h1>
+  <div class="category" onclick="location.href='tshirts.html'">
+    <img src="tshirts_white.jpeg" alt="T-Shirts">
+    <p>T-Shirts</p>
+  </div>
+  <div class="category" onclick="location.href='pants.html'">
+    <img src="pants_white.jpeg" alt="Pants">
+    <p>Pants</p>
+  </div>
+  <div class="category" onclick="location.href='shorts.html'">
+    <img src="shorts_white.jpeg" alt="Shorts">
+    <p>Shorts</p>
+  </div>
+  <div class="category" onclick="location.href='hoodies.html'">
+    <img src="hoodies_white.jpeg" alt="Hoodies">
+    <p>Hoodies</p>
+  </div>
+  <div class="footer">
+    Contact us:
+    <a href="mailto:noqta.clothes@gmail.com"><i class="fas fa-envelope"></i></a>
+    <a href="https://www.instagram.com/_noqta._?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank"><i class="fab fa-instagram"></i></a>
+  </div>
+</body>
+</html>
+
+<!-- Next: pants.html, shorts.html, hoodies.html, cart.html, ordersubmition.html -->

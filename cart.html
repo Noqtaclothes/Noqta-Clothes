@@ -1,0 +1,157 @@
+<!-- cart.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart - NOQTA</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: white;
+      color: black;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-top: 60px;
+      font-size: 36px;
+      font-weight: bold;
+    }
+    .cart-item {
+      border: 1px solid #ddd;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 700px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      position: relative;
+      background: #f9f9f9;
+      border-radius: 8px;
+    }
+    .cart-item span {
+      display: block;
+      margin: 6px 0;
+      font-size: 16px;
+    }
+    .remove-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: red;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    .footer {
+      text-align: center;
+      font-size: 14px;
+      margin-top: 60px;
+    }
+    .footer a {
+      color: black;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+    .summary {
+      text-align: center;
+      font-size: 20px;
+      margin-top: 40px;
+      background: #eee;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .proceed-btn {
+      padding: 12px 24px;
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 18px;
+      margin-top: 30px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Your Cart</h1>
+  <div id="cart-container"></div>
+
+  <div class="summary" id="summary"></div>
+
+  <a href="ordersubmition.html">
+    <button class="proceed-btn">Proceed to Checkout</button>
+  </a>
+
+  <div class="footer">
+    Contact us:
+    <a href="mailto:noqta.clothes@gmail.com"><i class="fas fa-envelope"></i></a>
+    <a href="https://www.instagram.com/_noqta._" target="_blank"><i class="fab fa-instagram"></i></a>
+  </div>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function renderCart() {
+      const container = document.getElementById('cart-container');
+      container.innerHTML = '';
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        const itemPrice = getPrice(item.type);
+        const itemTotal = itemPrice * item.quantity;
+        total += itemTotal;
+
+        const div = document.createElement('div');
+        div.className = 'cart-item';
+        div.innerHTML = `
+          <span><strong>Product:</strong> ${item.type}</span>
+          <span><strong>Color:</strong> ${item.color}</span>
+          <span><strong>Size:</strong> ${item.size}</span>
+          <span><strong>Quantity:</strong> ${item.quantity}</span>
+          <span><strong>Unit Price:</strong> ${itemPrice} EGP</span>
+          <span><strong>Total Price:</strong> ${itemTotal} EGP</span>
+          <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+        `;
+        container.appendChild(div);
+      });
+
+      const delivery = total > 1000 ? 50 : 100;
+      const grandTotal = total + delivery;
+
+      document.getElementById('summary').innerHTML = `
+        <strong>Subtotal:</strong> ${total} EGP<br>
+        <strong>Delivery Fee:</strong> ${delivery} EGP<br>
+        <strong>Total:</strong> ${grandTotal} EGP<br><br>
+        <strong>Payment Method:</strong> Cash on Delivery
+      `;
+    }
+
+    function getPrice(type) {
+      const t = type.toLowerCase();
+      if (t.includes('tshirt')) return 500;
+      if (t.includes('short')) return 550;
+      if (t.includes('hoodie')) return 870;
+      if (t.includes('pant')) return 980;
+      return 0;
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    renderCart();
+  </script>
+</body>
+</html>

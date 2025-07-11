@@ -1,0 +1,126 @@
+<!-- shorts.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shorts - NOQTA</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body { margin: 0; font-family: sans-serif; background: white; color: black; padding: 20px; }
+    .cart { position: fixed; top: 10px; right: 20px; font-size: 20px; }
+    .cart a { color: black; text-decoration: none; position: relative; }
+    #cart-count { background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; position: absolute; top: -8px; right: -12px; }
+    h1 { text-align: center; margin-top: 60px; }
+    .product { display: inline-block; width: 30%; margin: 1%; vertical-align: top; text-align: center; border: 1px solid #ddd; padding: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+    .product img { width: 100%; max-height: 250px; object-fit: contain; transition: 0.3s; }
+    .colors span { display: inline-block; width: 20px; height: 20px; border-radius: 50%; margin: 5px; cursor: pointer; border: 1px solid #000; }
+    .black { background: black; }
+    .white { background: white; border: 1px solid #aaa; }
+    .grey { background: grey; }
+    .price-tag { font-weight: bold; margin: 10px 0; }
+    .footer { text-align: center; font-size: 14px; margin-top: 40px; }
+    .footer a { color: black; margin: 0 10px; text-decoration: none; }
+    select, input[type='number'] { margin: 10px 0; padding: 5px; width: 60%; }
+    button { padding: 8px 16px; background-color: black; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s ease; }
+    button:hover { background-color: #333; }
+    #toast { display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: black; color: white; padding: 10px 20px; border-radius: 6px; z-index: 999; }
+  </style>
+</head>
+<body>
+  <div class="cart">
+    <a href="cart.html">
+      <i class="fas fa-shopping-cart"></i> Cart 
+      <span id="cart-count">0</span>
+    </a>
+  </div>
+
+  <h1>NOQTA Shorts</h1>
+
+  <div class="product">
+    <img id="img1" src="shorts_white.jpeg" alt="Model 1">
+    <div class="colors">
+      <span class="black" onmouseover="document.getElementById('img1').src='shorts_black.jpeg'"></span>
+      <span class="white" onmouseover="document.getElementById('img1').src='shorts_white.jpeg'"></span>
+      <span class="grey" onmouseover="document.getElementById('img1').src='shorts_grey.jpeg'"></span>
+    </div>
+    <div class="price-tag">550 EGP</div>
+    Quantity: <input type="number" min="1" value="1"><br>
+    Size:
+    <select>
+      <option>S</option><option>M</option><option>L</option><option>XL</option>
+    </select><br>
+    <button onclick="addToCart(this, 'Shorts', 'img1')">Add to Cart</button>
+  </div>
+
+  <div class="product">
+    <img id="img2" src="shorts_white.jpeg" alt="Model 2">
+    <div class="colors">
+      <span class="black" onmouseover="document.getElementById('img2').src='shorts_black.jpeg'"></span>
+      <span class="white" onmouseover="document.getElementById('img2').src='shorts_white.jpeg'"></span>
+      <span class="grey" onmouseover="document.getElementById('img2').src='shorts_grey.jpeg'"></span>
+    </div>
+    <div class="price-tag">550 EGP</div>
+    Quantity: <input type="number" min="1" value="1"><br>
+    Size:
+    <select>
+      <option>S</option><option>M</option><option>L</option><option>XL</option>
+    </select><br>
+    <button onclick="addToCart(this, 'Shorts', 'img2')">Add to Cart</button>
+  </div>
+
+  <div class="product">
+    <img id="img3" src="shorts_white.jpeg" alt="Model 3">
+    <div class="colors">
+      <span class="black" onmouseover="document.getElementById('img3').src='shorts_black.jpeg'"></span>
+      <span class="white" onmouseover="document.getElementById('img3').src='shorts_white.jpeg'"></span>
+      <span class="grey" onmouseover="document.getElementById('img3').src='shorts_grey.jpeg'"></span>
+    </div>
+    <div class="price-tag">550 EGP</div>
+    Quantity: <input type="number" min="1" value="1"><br>
+    Size:
+    <select>
+      <option>S</option><option>M</option><option>L</option><option>XL</option>
+    </select><br>
+    <button onclick="addToCart(this, 'Shorts', 'img3')">Add to Cart</button>
+  </div>
+
+  <div id="toast">Added to Cart</div>
+
+  <div class="footer">
+    Contact us:
+    <a href="mailto:noqta.clothes@gmail.com"><i class="fas fa-envelope"></i></a>
+    <a href="https://www.instagram.com/_noqta._" target="_blank"><i class="fab fa-instagram"></i></a>
+  </div>
+
+  <script>
+    const localCart = JSON.parse(localStorage.getItem("cart")) || [];
+    document.getElementById("cart-count").innerText = localCart.length;
+
+    function addToCart(button, type, imgId) {
+      const quantity = parseInt(button.parentElement.querySelector('input[type="number"]').value);
+      const size = button.parentElement.querySelector('select').value;
+      const imgSrc = document.getElementById(imgId).src;
+      let color = 'White';
+      if (imgSrc.includes('black')) color = 'Black';
+      else if (imgSrc.includes('grey')) color = 'Grey';
+
+      const product = { type, size, color, quantity };
+      localCart.push(product);
+      localStorage.setItem("cart", JSON.stringify(localCart));
+      document.getElementById("cart-count").innerText = localCart.length;
+
+      button.innerText = "Added";
+      button.disabled = true;
+      const toast = document.getElementById('toast');
+      toast.style.display = 'block';
+
+      setTimeout(() => {
+        toast.style.display = 'none';
+        button.innerText = "Add to Cart";
+        button.disabled = false;
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

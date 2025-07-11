@@ -1,0 +1,100 @@
+<!-- ordersubmition.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Order - NOQTA</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: white;
+      color: black;
+      padding: 40px;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    form {
+      display: inline-block;
+      text-align: left;
+      max-width: 400px;
+      width: 100%;
+    }
+    input, textarea, button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: black;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #333;
+    }
+    .footer {
+      margin-top: 40px;
+      font-size: 14px;
+    }
+    .footer a {
+      color: black;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Submit Your Order</h1>
+
+  <form action="https://formspree.io/f/meokndya" method="POST">
+    <label>Email:</label>
+    <input type="email" name="email" required>
+
+    <label>Full Name:</label>
+    <input type="text" name="fullName" required>
+
+    <label>Mobile Number:</label>
+    <input type="tel" name="phone" required>
+
+    <label>Address:</label>
+    <textarea name="address" rows="3" required></textarea>
+
+    <!-- Hidden cart details -->
+    <input type="hidden" name="cartDetails" id="cartDetails">
+
+    <button type="submit">Submit Order</button>
+  </form>
+
+  <div class="footer">
+    Contact us:
+    <a href="mailto:noqta.clothes@gmail.com"><i class="fas fa-envelope"></i></a>
+    <a href="https://www.instagram.com/_noqta._?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank"><i class="fab fa-instagram"></i></a>
+  </div>
+
+  <script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const cartText = cart.map(item =>
+        `${item.type} - ${item.color} - ${item.size} - Qty: ${item.quantity}`
+      ).join('\n');
+
+      document.getElementById('cartDetails').value = cartText;
+
+      // Clear cart after short delay
+      setTimeout(() => {
+        localStorage.removeItem('cart');
+      }, 1000);
+    });
+  </script>
+</body>
+</html>

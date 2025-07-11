@@ -1,0 +1,88 @@
+<!-- Basic file structure for NOQTA Clothing Brand Website -->
+<!-- Updated Home Page: white background, black circle, fade out animation -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NOQTA</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    body {
+      margin: 0;
+      background: #fff;
+      color: black;
+      font-family: sans-serif;
+      overflow: hidden;
+    }
+    .circle {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: black;
+      margin: 25vh auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.5s;
+      position: relative;
+      cursor: pointer;
+    }
+    .circle:hover {
+      width: 250px;
+      height: 250px;
+    }
+    .shop-now {
+      position: absolute;
+      color: white;
+      font-size: 20px;
+      opacity: 0;
+      transition: 0.3s;
+    }
+    .circle:hover .shop-now {
+      opacity: 1;
+    }
+    footer {
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 14px;
+    }
+    footer a {
+      color: black;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+    .fade-out {
+      animation: fadeOut 1s forwards;
+    }
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        transform: scale(1.5);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="circle" id="circle">
+    <div class="shop-now">SHOP NOW</div>
+  </div>
+  <footer>
+    Contact us:
+    <a href="mailto:noqta.clothes@gmail.com"><i class="fas fa-envelope"></i></a>
+    <a href="https://www.instagram.com/_noqta._?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank"><i class="fab fa-instagram"></i></a>
+  </footer>
+  <script>
+    const circle = document.getElementById('circle');
+    circle.addEventListener('click', () => {
+      circle.classList.add('fade-out');
+      setTimeout(() => {
+        window.location.href = 'categories.html';
+      }, 1000);
+    });
+  </script>
+</body>
+</html>

@@ -1,9 +1,8 @@
-<!-- ordersubmition.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Submit Order - NOQTA</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
@@ -56,12 +55,12 @@
 <body>
   <h1>Submit Your Order</h1>
 
-  <form action="https://formspree.io/f/meokndya" method="POST">
+  <form id="orderForm" action="https://formspree.io/f/meokndya" method="POST">
     <label>Email:</label>
     <input type="email" name="email" required>
 
     <label>Full Name:</label>
-    <input type="text" name="fullName" required>
+    <input type="text" name="to_name" required>
 
     <label>Mobile Number:</label>
     <input type="tel" name="phone" required>
@@ -69,8 +68,8 @@
     <label>Address:</label>
     <textarea name="address" rows="3" required></textarea>
 
-    <!-- Hidden cart details -->
-    <input type="hidden" name="cartDetails" id="cartDetails">
+    <!-- Hidden cart details for both Formspree + EmailJS -->
+    <input type="hidden" name="order" id="cartDetails" />
 
     <button type="submit">Submit Order</button>
   </form>
@@ -78,22 +77,37 @@
   <div class="footer">
     Contact us:
     <a href="mailto:noqta.clothes@gmail.com"><i class="fas fa-envelope"></i></a>
-    <a href="https://www.instagram.com/_noqta._?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank"><i class="fab fa-instagram"></i></a>
+    <a href="https://www.instagram.com/_noqta._" target="_blank"><i class="fab fa-instagram"></i></a>
   </div>
+
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    emailjs.init("hfQAXMgKqAiJM2-39"); // ✅ Your public key
+  </script>
 
   <script>
     document.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault(); // stop form from submitting immediately
+
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const cartText = cart.map(item =>
         `${item.type} - ${item.color} - ${item.size} - Qty: ${item.quantity}`
       ).join('\n');
 
-      document.getElementById('cartDetails').value = cartText;
+      document.getElementById('cartDetails').value = cartText || "No items in cart.";
 
-      // Clear cart after short delay
-      setTimeout(() => {
-        localStorage.removeItem('cart');
-      }, 1000);
+      // Send confirmation email using EmailJS
+      emailjs.sendForm('service_abc123', 'template_2q59l09', this)
+        .then(() => {
+          console.log("Confirmation email sent");
+          localStorage.removeItem('cart');
+          this.submit(); // now let Formspree handle the rest
+        })
+        .catch((error) => {
+          console.error("EmailJS failed:", error);
+          alert("Failed to send confirmation email.");
+        });
     });
   </script>
 </body>
